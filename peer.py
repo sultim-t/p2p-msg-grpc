@@ -1,6 +1,8 @@
 import sys
 import datetime
+import time
 from concurrent import futures
+import threading
 import socket
 
 import grpc
@@ -9,30 +11,24 @@ import p2p_msg_pb2
 import p2p_msg_pb2_grpc
 
 class PeerServicer(p2p_msg_pb2_grpc.PeerServicer):
-    def __init__(self, port):
-        self.port = port
+    def __init__(self, username):
+        self.username = username
 
     # this function will be called on receiving message from other peer
     def Msg(self, requestIterator, context):
         for newMsg in requestIterator:
             # print it and send response
             printMsg(newMsg)
+            yield p2p_msg_pb2.Empty()
 
-            yield p2p_msg_pb2.PeerMessage(
-                name = newMsg.name,
-                time = newMsg.time,
-                text = newMsg.text)
+    def SubscribeMsg(self, request, context):
+        #print(request.name + ' connected.')
+        return listenInput(self.username)
 
 def printMsg(msg):
     print('[' + msg.time + '] ' 
         + msg.name + ': ' + msg.text)
 
-def startServer(port):
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=16))
-    p2p_msg_pb2_grpc.add_PeerServicer_to_server(PeerServicer(port), server)
-    server.add_insecure_port('[::]:' + port)
-    server.start()
-    #server.wait_for_termination()
 
 def listenInput(username):
     while (True):
@@ -44,22 +40,27 @@ def listenInput(username):
             time = timeStr,
             text = msgToSend)
 
-def connect(serverip, port, username):
+def startServer(serverip, port, username):
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=16))
+    p2p_msg_pb2_grpc.add_PeerServicer_to_server(PeerServicer(username), server)
+    server.add_insecure_port('[::]:' + port)
+    server.start()
+    server.wait_for_termination()
+
+def listenServer(stub):
+    rs = stub.SubscribeMsg(p2p_msg_pb2.Empty())
+    for r in rs:
+        printMsg(r)
+
+def startSending(serverip, port, username):
     with grpc.insecure_channel(serverip + ':' + port) as channel:
         stub = p2p_msg_pb2_grpc.PeerStub(channel)
-
-        print('Connected to ' + ip + ':' + port)
-
-        timeStr = datetime.datetime.now().strftime('%H:%M:%S')
-
-        responses = stub.Msg(listenInput(username))
-        for r in responses:
-            if (r.name != username):
-                printMsg(r)
-
-sys.argv.append('localhost')  
-sys.argv.append('40000')
-sys.argv.append('LO')
+        ls = threading.Thread(target = listenServer, args = (stub,))
+        ls.start()
+        ers = stub.Msg(listenInput(username))       
+        for r in ers:
+            continue
+        ls.join()
 
 # main
 if len(sys.argv) < 3:
@@ -67,7 +68,7 @@ if len(sys.argv) < 3:
     print('or type \'--server\' instead of IP to be a server and a client at the same time.')
     sys.exit(0)
 
-print('Type \'/q\' to quit.')
+#print('Type \'/q\' to quit.')
 
 isFirst = sys.argv[1] == '--server'
 ip = sys.argv[1]
@@ -75,6 +76,6 @@ username = sys.argv[3]
 port = sys.argv[2]
 
 if isFirst:
-    startServer(port)
+    startServer(ip, port, username)
 else:
-    connect(ip, port, username)
+    startSending(ip, port, username)

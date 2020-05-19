@@ -16,6 +16,11 @@ class PeerStub(object):
         self.Msg = channel.stream_stream(
                 '/Peer/Msg',
                 request_serializer=p2p__msg__pb2.PeerMessage.SerializeToString,
+                response_deserializer=p2p__msg__pb2.Empty.FromString,
+                )
+        self.SubscribeMsg = channel.unary_stream(
+                '/Peer/SubscribeMsg',
+                request_serializer=p2p__msg__pb2.Empty.SerializeToString,
                 response_deserializer=p2p__msg__pb2.PeerMessage.FromString,
                 )
 
@@ -29,12 +34,23 @@ class PeerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SubscribeMsg(self, request, context):
+        """Missing associated documentation comment in .proto file"""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_PeerServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Msg': grpc.stream_stream_rpc_method_handler(
                     servicer.Msg,
                     request_deserializer=p2p__msg__pb2.PeerMessage.FromString,
+                    response_serializer=p2p__msg__pb2.Empty.SerializeToString,
+            ),
+            'SubscribeMsg': grpc.unary_stream_rpc_method_handler(
+                    servicer.SubscribeMsg,
+                    request_deserializer=p2p__msg__pb2.Empty.FromString,
                     response_serializer=p2p__msg__pb2.PeerMessage.SerializeToString,
             ),
     }
@@ -59,6 +75,22 @@ class Peer(object):
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/Peer/Msg',
             p2p__msg__pb2.PeerMessage.SerializeToString,
+            p2p__msg__pb2.Empty.FromString,
+            options, channel_credentials,
+            call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def SubscribeMsg(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/Peer/SubscribeMsg',
+            p2p__msg__pb2.Empty.SerializeToString,
             p2p__msg__pb2.PeerMessage.FromString,
             options, channel_credentials,
             call_credentials, compression, wait_for_ready, timeout, metadata)

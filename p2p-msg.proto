@@ -1,7 +1,8 @@
 syntax = "proto3";
 
 service Peer {
-    rpc Msg (stream PeerMessage) returns (stream PeerMessage) {}
+    rpc Msg (stream PeerMessage) returns (stream Empty) {}
+    rpc SubscribeMsg(Empty) returns (stream PeerMessage) {}
 }
 
 message PeerMessage {
@@ -9,3 +10,5 @@ message PeerMessage {
     string time = 2;
     string text = 3;
 }
+
+message Empty {}

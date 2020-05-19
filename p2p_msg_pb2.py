@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\rp2p-msg.proto\"7\n\x0bPeerMessage\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\t\x12\x0c\n\x04text\x18\x03 \x01(\t2/\n\x04Peer\x12\'\n\x03Msg\x12\x0c.PeerMessage\x1a\x0c.PeerMessage\"\x00(\x01\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\rp2p-msg.proto\"7\n\x0bPeerMessage\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\t\x12\x0c\n\x04text\x18\x03 \x01(\t\"\x07\n\x05\x45mpty2S\n\x04Peer\x12!\n\x03Msg\x12\x0c.PeerMessage\x1a\x06.Empty\"\x00(\x01\x30\x01\x12(\n\x0cSubscribeMsg\x12\x06.Empty\x1a\x0c.PeerMessage\"\x00\x30\x01\x62\x06proto3'
 )
 
 
@@ -68,7 +68,32 @@ _PEERMESSAGE = _descriptor.Descriptor(
   serialized_end=72,
 )
 
+
+_EMPTY = _descriptor.Descriptor(
+  name='Empty',
+  full_name='Empty',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=74,
+  serialized_end=81,
+)
+
 DESCRIPTOR.message_types_by_name['PeerMessage'] = _PEERMESSAGE
+DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PeerMessage = _reflection.GeneratedProtocolMessageType('PeerMessage', (_message.Message,), {
@@ -78,6 +103,13 @@ PeerMessage = _reflection.GeneratedProtocolMessageType('PeerMessage', (_message.
   })
 _sym_db.RegisterMessage(PeerMessage)
 
+Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTY,
+  '__module__' : 'p2p_msg_pb2'
+  # @@protoc_insertion_point(class_scope:Empty)
+  })
+_sym_db.RegisterMessage(Empty)
+
 
 
 _PEER = _descriptor.ServiceDescriptor(
@@ -86,8 +118,8 @@ _PEER = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=74,
-  serialized_end=121,
+  serialized_start=83,
+  serialized_end=166,
   methods=[
   _descriptor.MethodDescriptor(
     name='Msg',
@@ -95,6 +127,15 @@ _PEER = _descriptor.ServiceDescriptor(
     index=0,
     containing_service=None,
     input_type=_PEERMESSAGE,
+    output_type=_EMPTY,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='SubscribeMsg',
+    full_name='Peer.SubscribeMsg',
+    index=1,
+    containing_service=None,
+    input_type=_EMPTY,
     output_type=_PEERMESSAGE,
     serialized_options=None,
   ),
