@@ -13,7 +13,7 @@ class PeerStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Send = channel.unary_unary(
+        self.Send = channel.stream_stream(
                 '/Peer/Send',
                 request_serializer=p2p__msg__pb2.PeerMessage.SerializeToString,
                 response_deserializer=p2p__msg__pb2.PeerMessageResponse.FromString,
@@ -23,7 +23,7 @@ class PeerStub(object):
 class PeerServicer(object):
     """Missing associated documentation comment in .proto file"""
 
-    def Send(self, request, context):
+    def Send(self, request_iterator, context):
         """Missing associated documentation comment in .proto file"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -32,7 +32,7 @@ class PeerServicer(object):
 
 def add_PeerServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Send': grpc.unary_unary_rpc_method_handler(
+            'Send': grpc.stream_stream_rpc_method_handler(
                     servicer.Send,
                     request_deserializer=p2p__msg__pb2.PeerMessage.FromString,
                     response_serializer=p2p__msg__pb2.PeerMessageResponse.SerializeToString,
@@ -48,7 +48,7 @@ class Peer(object):
     """Missing associated documentation comment in .proto file"""
 
     @staticmethod
-    def Send(request,
+    def Send(request_iterator,
             target,
             options=(),
             channel_credentials=None,
@@ -57,7 +57,7 @@ class Peer(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Peer/Send',
+        return grpc.experimental.stream_stream(request_iterator, target, '/Peer/Send',
             p2p__msg__pb2.PeerMessage.SerializeToString,
             p2p__msg__pb2.PeerMessageResponse.FromString,
             options, channel_credentials,

@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\rp2p-msg.proto\"7\n\x0bPeerMessage\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\x04\x12\x0c\n\x04text\x18\x03 \x01(\t\"\x15\n\x13PeerMessageResponse22\n\x04Peer\x12*\n\x04Send\x12\x0c.PeerMessage\x1a\x14.PeerMessageResponseb\x06proto3'
+  serialized_pb=b'\n\rp2p-msg.proto\"7\n\x0bPeerMessage\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\x04\x12\x0c\n\x04text\x18\x03 \x01(\t\"\x15\n\x13PeerMessageResponse26\n\x04Peer\x12.\n\x04Send\x12\x0c.PeerMessage\x1a\x14.PeerMessageResponse(\x01\x30\x01\x62\x06proto3'
 )
 
 
@@ -119,7 +119,7 @@ _PEER = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   serialized_start=97,
-  serialized_end=147,
+  serialized_end=151,
   methods=[
   _descriptor.MethodDescriptor(
     name='Send',

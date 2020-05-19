@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 service Peer {
-    rpc Send (PeerMessage) returns (PeerMessageResponse);
+    rpc Send (stream PeerMessage) returns (stream PeerMessageResponse);
 }
 
 message PeerMessage {
