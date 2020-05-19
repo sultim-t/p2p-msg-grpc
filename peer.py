@@ -22,7 +22,7 @@ class PeerServicer(p2p_msg_pb2_grpc.PeerServicer):
             yield p2p_msg_pb2.Empty()
 
     def SubscribeMsg(self, request, context):
-        #print(request.name + ' connected.')
+        print('User connected.')
         return listenInput(self.username)
 
 def printMsg(msg):
@@ -33,6 +33,9 @@ def printMsg(msg):
 def listenInput(username):
     while (True):
         msgToSend = input()
+        if (len(msgToSend) == 0):
+            continue
+	
         timeStr = datetime.datetime.now().strftime('%H:%M:%S')
 
         yield p2p_msg_pb2.PeerMessage(
@@ -55,6 +58,7 @@ def listenServer(stub):
 def startSending(serverip, port, username):
     with grpc.insecure_channel(serverip + ':' + port) as channel:
         stub = p2p_msg_pb2_grpc.PeerStub(channel)
+        print('Connected.')
         ls = threading.Thread(target = listenServer, args = (stub,))
         ls.start()
         ers = stub.Msg(listenInput(username))       
@@ -75,7 +79,10 @@ ip = sys.argv[1]
 username = sys.argv[3]
 port = sys.argv[2]
 
-if isFirst:
-    startServer(ip, port, username)
-else:
-    startSending(ip, port, username)
+try:
+    if isFirst:
+        startServer(ip, port, username)
+    else:
+        startSending(ip, port, username)
+except:
+    print('Error occured')
