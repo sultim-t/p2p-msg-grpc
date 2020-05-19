@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\rp2p-msg.proto\"7\n\x0bPeerMessage\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\x04\x12\x0c\n\x04text\x18\x03 \x01(\t\"\x15\n\x13PeerMessageResponse26\n\x04Peer\x12.\n\x04Send\x12\x0c.PeerMessage\x1a\x14.PeerMessageResponse(\x01\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\rp2p-msg.proto\"7\n\x0bPeerMessage\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\t\x12\x0c\n\x04text\x18\x03 \x01(\t2/\n\x04Peer\x12\'\n\x03Msg\x12\x0c.PeerMessage\x1a\x0c.PeerMessage\"\x00(\x01\x30\x01\x62\x06proto3'
 )
 
 
@@ -40,8 +40,8 @@ _PEERMESSAGE = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='time', full_name='PeerMessage.time', index=1,
-      number=2, type=4, cpp_type=4, label=1,
-      has_default_value=False, default_value=0,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -68,32 +68,7 @@ _PEERMESSAGE = _descriptor.Descriptor(
   serialized_end=72,
 )
 
-
-_PEERMESSAGERESPONSE = _descriptor.Descriptor(
-  name='PeerMessageResponse',
-  full_name='PeerMessageResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=74,
-  serialized_end=95,
-)
-
 DESCRIPTOR.message_types_by_name['PeerMessage'] = _PEERMESSAGE
-DESCRIPTOR.message_types_by_name['PeerMessageResponse'] = _PEERMESSAGERESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PeerMessage = _reflection.GeneratedProtocolMessageType('PeerMessage', (_message.Message,), {
@@ -103,13 +78,6 @@ PeerMessage = _reflection.GeneratedProtocolMessageType('PeerMessage', (_message.
   })
 _sym_db.RegisterMessage(PeerMessage)
 
-PeerMessageResponse = _reflection.GeneratedProtocolMessageType('PeerMessageResponse', (_message.Message,), {
-  'DESCRIPTOR' : _PEERMESSAGERESPONSE,
-  '__module__' : 'p2p_msg_pb2'
-  # @@protoc_insertion_point(class_scope:PeerMessageResponse)
-  })
-_sym_db.RegisterMessage(PeerMessageResponse)
-
 
 
 _PEER = _descriptor.ServiceDescriptor(
@@ -118,16 +86,16 @@ _PEER = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=97,
-  serialized_end=151,
+  serialized_start=74,
+  serialized_end=121,
   methods=[
   _descriptor.MethodDescriptor(
-    name='Send',
-    full_name='Peer.Send',
+    name='Msg',
+    full_name='Peer.Msg',
     index=0,
     containing_service=None,
     input_type=_PEERMESSAGE,
-    output_type=_PEERMESSAGERESPONSE,
+    output_type=_PEERMESSAGE,
     serialized_options=None,
   ),
 ])
