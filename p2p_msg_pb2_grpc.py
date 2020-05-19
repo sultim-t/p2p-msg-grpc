@@ -16,7 +16,7 @@ class PeerStub(object):
         self.Send = channel.stream_stream(
                 '/Peer/Send',
                 request_serializer=p2p__msg__pb2.PeerMessage.SerializeToString,
-                response_deserializer=p2p__msg__pb2.PeerMessageResponse.FromString,
+                response_deserializer=p2p__msg__pb2.PeerMessage.FromString,
                 )
 
 
@@ -35,7 +35,7 @@ def add_PeerServicer_to_server(servicer, server):
             'Send': grpc.stream_stream_rpc_method_handler(
                     servicer.Send,
                     request_deserializer=p2p__msg__pb2.PeerMessage.FromString,
-                    response_serializer=p2p__msg__pb2.PeerMessageResponse.SerializeToString,
+                    response_serializer=p2p__msg__pb2.PeerMessage.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -59,6 +59,6 @@ class Peer(object):
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/Peer/Send',
             p2p__msg__pb2.PeerMessage.SerializeToString,
-            p2p__msg__pb2.PeerMessageResponse.FromString,
+            p2p__msg__pb2.PeerMessage.FromString,
             options, channel_credentials,
             call_credentials, compression, wait_for_ready, timeout, metadata)
