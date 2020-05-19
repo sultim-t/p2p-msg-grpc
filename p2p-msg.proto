@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service Peer {
+    rpc Send (PeerMessage) returns (PeerMessageResponse);
+}
+
+message PeerMessage {
+    string name = 1;
+    uint64 time = 2;
+    string text = 3;
+}
+
+message PeerMessageResponse {}
