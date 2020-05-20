@@ -1,5 +1,7 @@
 # p2p-msg-grpc
 
+Requires Python 3.7 and higher.
+
 gRPC installation:
 
 ```python -m pip install grpcio```
