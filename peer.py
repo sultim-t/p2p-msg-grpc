@@ -43,7 +43,7 @@ def listenInput(username):
             time = timeStr,
             text = msgToSend)
 
-def startServer(serverip, port, username):
+def startServer(port, username):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=16))
     p2p_msg_pb2_grpc.add_PeerServicer_to_server(PeerServicer(username), server)
     server.add_insecure_port('[::]:' + port)
@@ -81,7 +81,7 @@ port = sys.argv[2]
 
 try:
     if isFirst:
-        startServer(ip, port, username)
+        startServer(port, username)
     else:
         startSending(ip, port, username)
 except:
