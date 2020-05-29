@@ -26,11 +26,13 @@ Building:
 
 Starting server:
 
-```sudo docker run p2p-msg-grpc:1.0 --server <port> <username>```
+```sudo docker run -a stdin -a stdout -i -t p2p-msg-grpc:1.0 --server <port> <username>```
 
 Starting client:
 
-```sudo docker run p2p-msg-grpc:1.0 <server's ip address> <port> <username>```
+```sudo docker run -a stdin -a stdout -i -t p2p-msg-grpc:1.0 <server's ip address> <port> <username>```
+
+Note: ```-a stdin -a stdout -i -t``` are required for STDIN and STDOUT, i.e. listening user input and showing messages from other peer.
 
 ## Container's IP address
 
