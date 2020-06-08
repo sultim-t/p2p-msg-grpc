@@ -7,6 +7,7 @@ Requires Python 3.7 and higher.
 Firstly, install required packages and generate gRPC files from .proto:
 
 ```python -m pip install -r requirements.txt```
+
 ```python -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. p2p-msg.proto```
 
 The first user must launch app in server mode:
